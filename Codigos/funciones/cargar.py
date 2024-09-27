@@ -49,3 +49,22 @@ def mostrar_imagenes(imagenes, sufijos, barra = False):
       clb.set_label('Niveles de grises', fontsize=12)
 
     plt.show()
+
+
+def analizar_imagenes(imagenes, sufijos):
+    altura_max = 0
+    ancho_max = 0
+
+    for i, imagen in enumerate(imagenes):
+        if imagen is None:
+            print(f"Error: No se cargó la imagen {sufijos[i]}.tif")
+        else:
+            altura, ancho = imagen.shape
+            maximo = np.max(imagen)
+            minimo = np.min(imagen)
+            print(f"La altura y ancho de la imagen {sufijos[i]}.tif son: {altura} y {ancho}. Máximo: {maximo}, Mínimo: {minimo}")
+
+    """ Por mas de que parezca una obviedad analizamos las dimensiones de todas las imagenes
+    #para asegurarnos que miden lo mismo y tomamos su altura y ancho para que en el inciso I del Ej 1
+    # No nos pasemos de pixeles cuando se lo pedimos al usuario"""
+    return altura, ancho
