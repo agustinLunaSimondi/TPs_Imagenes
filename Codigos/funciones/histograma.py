@@ -1,3 +1,5 @@
+import  matplotlib.pyplot as plt
+import numpy as np
 def histograma(imagenes,sufijos):
   plt.figure(figsize=(22, 8))
   for i, imagen in enumerate(imagenes):
