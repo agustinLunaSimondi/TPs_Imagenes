@@ -8,7 +8,7 @@ def cargar_imagenes(sufijos, ruta_base):
     for i, sufijo in enumerate(sufijos):
         imagen_path = ruta_base+sufijo+'.tif'
 
-        imagenes_descargadas[i] = cv2.imread(imagen_path, cv2.IMREAD_GRAYSCALE)
+        imagenes_descargadas[i] = cv2.imread(imagen_path, cv2.IMREAD_COLOR)
 
         if imagenes_descargadas[i] is None:
           #Si por algun motivo no  carga que lo informe
