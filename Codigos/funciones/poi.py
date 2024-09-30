@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+import time
 import os
 
 def detectar_puntos_interes(imagen, metodo='SIFT'):
@@ -14,8 +15,11 @@ def detectar_puntos_interes(imagen, metodo='SIFT'):
     Returns:
         keypoints: Lista de puntos clave detectados.
         output_image: Imagen con los puntos clave dibujados.
+        tiempo: Tiempo de ejecución del método.
     """
     gray = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)  # Convertir a escala de grises
+
+    inicio_tiempo = time.time()  # Iniciar temporizador
 
     if metodo == 'SIFT':
         sift = cv2.SIFT_create()
@@ -24,11 +28,13 @@ def detectar_puntos_interes(imagen, metodo='SIFT'):
     elif metodo == 'ORB':
         orb = cv2.ORB_create()
         keypoints, descriptors = orb.detectAndCompute(gray, None)
-    
+
+    tiempo = time.time() - inicio_tiempo  # Calcular tiempo de ejecución
+
     # Dibujar los puntos clave en la imagen
-    output_image = cv2.drawKeypoints(imagen, keypoints, None, color=(0, 255, 0), flags=cv2.DrawMatchesFlags_DRAW_RICH_KEYPOINTS)
+    output_image = cv2.drawKeypoints(imagen, keypoints, None, color=(0,255,0), flags=cv2.DrawMatchesFlags_DRAW_RICH_KEYPOINTS)
     
-    return keypoints, output_image
+    return keypoints, output_image, tiempo
 
 def comparar_metodos_puntos_interes(imagenes, sufijos, output_dir='./output/puntos_interes'):
     """
@@ -41,7 +47,7 @@ def comparar_metodos_puntos_interes(imagenes, sufijos, output_dir='./output/punt
     """
     os.makedirs(output_dir, exist_ok=True)  # Crear el directorio principal si no existe
     
-    metodos = ['SIFT', 'ORB']  # Se elimina SURF
+    metodos = ['SIFT', 'ORB']
 
     for i, imagen in enumerate(imagenes):
         if imagen is None:
@@ -56,12 +62,16 @@ def comparar_metodos_puntos_interes(imagenes, sufijos, output_dir='./output/punt
             for j, metodo in enumerate(metodos):
                 try:
                     # Detectar puntos de interés con el método especificado
-                    keypoints, output_image = detectar_puntos_interes(imagen, metodo=metodo)
+                    keypoints, output_image, tiempo = detectar_puntos_interes(imagen, metodo=metodo)
+                    
+                    # Número de puntos clave detectados
+                    num_puntos = len(keypoints)
+                    print(f"{metodo} - {sufijos[i]}: Puntos clave detectados = {num_puntos}, Tiempo = {tiempo:.4f} segundos")
                     
                     # Mostrar la imagen con los puntos de interés
                     plt.subplot(1, len(metodos), j + 1)
                     plt.imshow(cv2.cvtColor(output_image, cv2.COLOR_BGR2RGB))
-                    plt.title(f"{metodo} - {sufijos[i]}")
+                    plt.title(f"{metodo} - {num_puntos} puntos\n{tiempo:.4f} seg")
                     plt.axis('off')
                     
                     # Guardar la imagen con los puntos de interés
