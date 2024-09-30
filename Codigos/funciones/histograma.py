@@ -2,15 +2,11 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+from funciones.guardar import guardar_imagen
 
-def guardar_imagen(path, nombre, img, color=True):
-    """Guardar imagen usando OpenCV."""
-    if color:
-        cv2.imwrite(os.path.join(path, nombre), cv2.cvtColor(img, cv2.COLOR_RGB2BGR))
-    else:
-        cv2.imwrite(os.path.join(path, nombre), img)
 
-def mostrar_histogramas(imagenes, sufijos, output_dir='./output'):
+
+def mostrar_histogramas(imagenes, sufijos, output_dir='./output/histogramas'):
     os.makedirs(output_dir, exist_ok=True)  # Crear el directorio principal si no existe
 
     for i, imagen in enumerate(imagenes):
