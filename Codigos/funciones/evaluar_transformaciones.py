@@ -52,8 +52,8 @@ def detectar_puntos_interes(imagen, metodo='SIFT'):
         keypoints, descriptors = orb.detectAndCompute(gray, None)
 
     tiempo = time.time() - inicio_tiempo  # Calcular tiempo de ejecución
-    
-    return keypoints, tiempo
+    output_image = cv2.drawKeypoints(imagen, keypoints, None, color=(0,255,0), flags=cv2.DrawMatchesFlags_DRAW_RICH_KEYPOINTS)
+    return keypoints,output_image, tiempo
 
 def evaluar_transformaciones(imagen, sufijo, metodos=['SIFT', 'ORB'], output_dir='./output/transformaciones'):
     """
@@ -83,7 +83,8 @@ def evaluar_transformaciones(imagen, sufijo, metodos=['SIFT', 'ORB'], output_dir
         print(f"Evaluando transformación: {nombre_transformacion} en {sufijo}")
 
         for metodo in metodos:
-            keypoints, tiempo = detectar_puntos_interes(imagen_transformada, metodo=metodo)
+            
+            keypoints,output_image,tiempo = detectar_puntos_interes(imagen_transformada, metodo=metodo)
             num_puntos = len(keypoints)
 
             print(f"  {metodo}: {num_puntos} puntos clave detectados, Tiempo = {tiempo:.4f} segundos")
@@ -92,3 +93,27 @@ def evaluar_transformaciones(imagen, sufijo, metodos=['SIFT', 'ORB'], output_dir
             output_image = cv2.drawKeypoints(imagen_transformada, keypoints, None, color=(0,255,0), flags=cv2.DrawMatchesFlags_DRAW_RICH_KEYPOINTS)
             output_path = os.path.join(output_dir, f"{sufijo}_{nombre_transformacion.replace(' ', '_')}_{metodo}.png")
             cv2.imwrite(output_path, output_image)
+        if sufijo == 'img-1' : 
+            for j, metodo in enumerate(metodos):
+                keypoints,output_image,tiempo = detectar_puntos_interes(imagen_transformada, metodo=metodo)
+                try:
+                    # Detectar puntos de interés con el método especificado
+                    
+                    
+                    # Número de puntos clave detectados
+                    
+                    
+                    # Mostrar la imagen con los puntos de interés
+                    plt.subplot(1, len(metodos), j + 1)
+                    plt.imshow(cv2.cvtColor(output_image, cv2.COLOR_BGR2RGB))
+                    plt.suptitle(f'Evaluando transformación: {nombre_transformacion} en {sufijo}')
+                    plt.title(f"{metodo} - {num_puntos} puntos\n{tiempo:.4f} seg")
+                    plt.axis('off')
+                    
+                    
+
+                except cv2.error as e:
+                    print(f"Error usando {metodo} en {sufijo}: {e}")
+
+            plt.tight_layout()
+            plt.show()
