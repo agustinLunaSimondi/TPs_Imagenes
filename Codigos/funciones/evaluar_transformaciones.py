@@ -102,6 +102,8 @@ def evaluar_transformaciones(imagen, sufijo, metodos=['SIFT', 'ORB'], output_dir
             plt.figure(figsize=(12, 4))  # Ajusta el tamaño de la figura para mostrar mejor las imágenes
             for j, metodo in enumerate(metodos):
                 keypoints, output_image, tiempo = detectar_puntos_interes(imagen_transformada, metodo=metodo)
+                num_puntos = len(keypoints)
+                
 
                 if output_image is None:
                     print(f"Error usando {metodo} en {sufijo}: imagen vacía.")
