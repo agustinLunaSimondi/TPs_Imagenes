@@ -59,7 +59,7 @@ def analizar_imagenes(imagenes, sufijos):
         if imagen is None:
             print(f"Error: No se cargó la imagen {sufijos[i]}.tif")
         else:
-            altura, ancho = imagen.shape
+            altura, ancho, canales = imagen.shape
             maximo = np.max(imagen)
             minimo = np.min(imagen)
             print(f"La altura y ancho de la imagen {sufijos[i]}.tif son: {altura} y {ancho}. Máximo: {maximo}, Mínimo: {minimo}")

@@ -7,8 +7,66 @@ try:
     from guardar import guardar_imagen
 except ImportError:
     from funciones.guardar import guardar_imagen
+def mostrar_espacios(imagenes, sufijos, output_dir='./output/histogramas'):
+    os.makedirs(output_dir, exist_ok=True)  # Crear el directorio principal si no existe
 
+    # Crear una figura para mostrar las imágenes y sus transformaciones
+    plt.figure(figsize=(20, 20))
+    
+    for i, imagen in enumerate(imagenes):
+        if imagen is None:
+            print(f"Error: No se cargó la imagen {sufijos[i]}.tif")
+            continue
+        
+        # Convertir la imagen a otros espacios de color
+        original_img = imagen
+        rgb_img = cv2.cvtColor(imagen, cv2.COLOR_BGR2RGB)
+        yuv_img = cv2.cvtColor(imagen, cv2.COLOR_BGR2YUV)
+        hsv_img = cv2.cvtColor(imagen, cv2.COLOR_BGR2HSV)
 
+        # Mostrar las imágenes en formato 4x4
+        # Columna 1: Imagen Original
+        plt.subplot(4, 4, i * 4 + 1)
+        plt.imshow(original_img)
+        plt.title(f"Original Cargada (BGR) - {sufijos[i]}")
+        plt.axis('off')
+
+        # Columna 2: Espacio RGB
+        plt.subplot(4, 4, i * 4 + 2)
+        plt.imshow(rgb_img)
+        plt.title(f"RGB - {sufijos[i]}")
+        plt.axis('off')
+
+        # Columna 3: Espacio YUV
+        plt.subplot(4, 4, i * 4 + 3)
+        plt.imshow(yuv_img)
+        plt.title(f"YUV - {sufijos[i]}")
+        plt.axis('off')
+
+        # Columna 4: Espacio HSV
+        plt.subplot(4, 4, i * 4 + 4)
+        plt.imshow(hsv_img)
+        plt.title(f"HSV - {sufijos[i]}")
+        plt.axis('off')
+
+    #plt.tight_layout()
+    plt.show()
+    for i, imagen in enumerate(imagenes):
+        if imagen is None:
+            continue
+        
+        # Crear directorio para la imagen
+        imagen_dir = os.path.join(output_dir, sufijos[i])
+        os.makedirs(imagen_dir, exist_ok=True)
+
+        if len(imagen.shape) == 3:  # Imagen en color (3 canales)
+            # Crear subcarpetas para RGB, YUV y HSV
+            rgb_dir = os.path.join(imagen_dir, 'RGB_IMAGEN')
+            yuv_dir = os.path.join(imagen_dir, 'YUV_IMAGEN')
+            hsv_dir = os.path.join(imagen_dir, 'HSV_IMAGEN')
+            os.makedirs(rgb_dir, exist_ok=True)
+            os.makedirs(yuv_dir, exist_ok=True)
+            os.makedirs(hsv_dir, exist_ok=True)
 
 def mostrar_histogramas(imagenes, sufijos, output_dir='./output/histogramas'):
     os.makedirs(output_dir, exist_ok=True)  # Crear el directorio principal si no existe
@@ -40,7 +98,7 @@ def mostrar_histogramas(imagenes, sufijos, output_dir='./output/histogramas'):
                     canal_img[:, :, j] = imagen[:, :, j]
                     
                     # Guardar cada canal individual en la carpeta RGB
-                    canal_img_rgb = cv2.cvtColor(canal_img, cv2.COLOR_BGR2RGB)  # Convertir de BGR a RGB para guardar
+                    canal_img_rgb = canal_img # Ya que lo asigne correctamente ya 
                     guardar_imagen(rgb_dir, f"{sufijos[i]}_Canal_{col}.png", canal_img_rgb)
 
                     # Mostrar cada canal
@@ -78,7 +136,7 @@ def mostrar_histogramas(imagenes, sufijos, output_dir='./output/histogramas'):
 
                     # Mostrar cada canal
                     plt.subplot(3, 4, 5 + j)
-                    plt.imshow(canal_img[:, :, j], cmap='gray')
+                    plt.imshow(canal_img[:, :, j])
                     plt.title(f"Canal {componentes_yuv[j]} - {sufijos[i]}")
                     plt.axis('off')
 
@@ -110,7 +168,7 @@ def mostrar_histogramas(imagenes, sufijos, output_dir='./output/histogramas'):
 
                     # Mostrar cada canal
                     plt.subplot(3, 4, 9 + j)
-                    plt.imshow(canal_img[:, :, j], cmap='gray')
+                    plt.imshow(canal_img[:, :, j])
                     plt.title(f"Canal {componentes_hsv[j]} - {sufijos[i]}")
                     plt.axis('off')
 
