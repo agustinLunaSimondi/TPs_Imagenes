@@ -2,7 +2,11 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-from funciones.guardar import guardar_imagen
+
+try:
+    from guardar import guardar_imagen
+except ImportError:
+    from funciones.guardar import guardar_imagen
 
 
 

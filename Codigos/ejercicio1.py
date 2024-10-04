@@ -1,6 +1,7 @@
 from funciones.cargar import cargar_imagenes, mostrar_imagenes
 from funciones.histograma import mostrar_histogramas
 from funciones.autocorrelograma import autocorrelograma_por_canal , autocorrelograma_rgb
+from funciones.guardar import guardar_imagen
 
 def ejercicio1():
     # Set 1: Imágenes de la carpeta "PAIByB-3"
@@ -24,8 +25,8 @@ def ejercicio1():
     #mostrar_histogramas(imagenes_set1, sufijos_set1)
 
     print("Mostrando autocorrelogramas del Set 2 (PAIByB-4):")
-    #autocorrelograma_por_canal(imagenes_set1,sufijos_set1, distancias = [1])
-    autocorrelograma_rgb(imagenes_set1,sufijos_set1, distancias = [1])
+    #autocorrelograma_por_canal(imagenes_set1,sufijos_set1)
+    autocorrelograma_rgb(imagenes_set1,sufijos_set1)
 
   
 
