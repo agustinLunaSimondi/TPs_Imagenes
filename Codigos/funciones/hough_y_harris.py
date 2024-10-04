@@ -1,9 +1,9 @@
 import numpy as np
 import cv2
 
-def lineas_hough(imagen, lower_thersh = 50, upper_thresh = 150):
+def lineas_hough(imagen, lower_thersh = 50, upper_thresh = 150, longitud = 200):
     bordes = cv2.Canny(imagen, lower_thersh, upper_thresh)
-    lineas = cv2.HoughLines(bordes, 1, np.pi / 180, 200)
+    lineas = cv2.HoughLinesP(bordes, 1, np.pi / 180, longitud, minLineLength=50, maxLineGap=10)
     return lineas
 
 
