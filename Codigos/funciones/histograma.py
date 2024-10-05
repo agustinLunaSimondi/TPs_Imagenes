@@ -113,7 +113,8 @@ def mostrar_histogramas(imagenes, sufijos, output_dir='./output/histogramas'):
                 colores_rgb = ('r', 'g', 'b')
                 hist_total = np.zeros(256) 
                 for j, col in enumerate(colores_rgb):
-                    hist = cv2.calcHist([imagen], [j], None, [256], [0, 256])
+                    imagen_rgb = cv2.cvtColor(imagen, cv2.COLOR_BGR2RGB)
+                    hist = cv2.calcHist([imagen_rgb], [j], None, [256], [0, 256])
                     hist_total += hist.flatten() 
                     plt.plot(hist, color=col, label=f'Canal {col.upper()}')
                 plt.plot(hist_total, color='gray', label='RGB combinado', linestyle='--', linewidth=1.5)
