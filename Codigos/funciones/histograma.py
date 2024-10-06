@@ -93,9 +93,12 @@ def mostrar_histogramas(imagenes, sufijos, output_dir='./output/histogramas'):
 
                 # Guardar y mostrar imágenes de cada componente (R, G, B)
                 colores = ('R', 'G', 'B')
+                mapas = ["Reds","Greens","Blues"]
+                
                 for j, col in enumerate(colores):
-                    canal_img = np.zeros_like(imagen)
-                    canal_img[:, :, j] = imagen[:, :, j]
+                    
+                    #canal_img = np.zeros_like(imagen)
+                    canal_img = imagen[:, :, j]
                     
                     # Guardar cada canal individual en la carpeta RGB
                     canal_img_rgb = canal_img # Ya que lo asigne correctamente ya 
@@ -103,9 +106,11 @@ def mostrar_histogramas(imagenes, sufijos, output_dir='./output/histogramas'):
 
                     # Mostrar cada canal
                     plt.subplot(3, 4, 1 + j)
-                    plt.imshow(canal_img_rgb)
+                    plt.imshow(canal_img, cmap = mapas[j] )
                     plt.title(f"Canal {col} - {sufijos[i]}")
                     plt.axis('off')
+                    plt.colorbar()
+                    
 
                 # Guardar el histograma RGB combinado y por canal
                 plt.subplot(3, 4, 4)
@@ -113,6 +118,8 @@ def mostrar_histogramas(imagenes, sufijos, output_dir='./output/histogramas'):
                 colores_rgb = ('r', 'g', 'b')
                 hist_total = np.zeros(256) 
                 for j, col in enumerate(colores_rgb):
+                    #imagen_rgb = cv2.cvtColor(imagen, cv2.COLOR_BGR2RGB) (No hace falta esto porque
+                    # el [j] de hist ya lo pone en su canal apropiado)
                     hist = cv2.calcHist([imagen], [j], None, [256], [0, 256])
                     hist_total += hist.flatten() 
                     plt.plot(hist, color=col, label=f'Canal {col.upper()}')
@@ -127,6 +134,7 @@ def mostrar_histogramas(imagenes, sufijos, output_dir='./output/histogramas'):
                 # Convertir la imagen a YUV y guardar
                 yuv_img = cv2.cvtColor(imagen, cv2.COLOR_BGR2YUV)
                 componentes_yuv = ('Y', 'U', 'V')
+                mapas = ["gray","coolwarm","RdBu"]
                 for j in range(3):
                     canal_img = np.zeros_like(yuv_img)
                     canal_img[:, :, j] = yuv_img[:, :, j]
@@ -136,9 +144,10 @@ def mostrar_histogramas(imagenes, sufijos, output_dir='./output/histogramas'):
 
                     # Mostrar cada canal
                     plt.subplot(3, 4, 5 + j)
-                    plt.imshow(canal_img[:, :, j])
+                    plt.imshow(canal_img[:, :, j], cmap = mapas [j])
                     plt.title(f"Canal {componentes_yuv[j]} - {sufijos[i]}")
                     plt.axis('off')
+                    plt.colorbar()
 
                 # Guardar el histograma YUV
                 plt.subplot(3, 4, 8)
@@ -159,6 +168,7 @@ def mostrar_histogramas(imagenes, sufijos, output_dir='./output/histogramas'):
                 # Convertir la imagen a HSV y guardar
                 hsv_img = cv2.cvtColor(imagen, cv2.COLOR_BGR2HSV)
                 componentes_hsv = ('H', 'S', 'V')
+                mapas = ["hsv","viridis","gray"]
                 for j in range(3):
                     canal_img = np.zeros_like(hsv_img)
                     canal_img[:, :, j] = hsv_img[:, :, j]
@@ -168,9 +178,10 @@ def mostrar_histogramas(imagenes, sufijos, output_dir='./output/histogramas'):
 
                     # Mostrar cada canal
                     plt.subplot(3, 4, 9 + j)
-                    plt.imshow(canal_img[:, :, j])
+                    plt.imshow(canal_img[:, :, j], cmap = mapas[j])
                     plt.title(f"Canal {componentes_hsv[j]} - {sufijos[i]}")
                     plt.axis('off')
+                    plt.colorbar()
 
                 # Guardar el histograma HSV
                 plt.subplot(3, 4, 12)
