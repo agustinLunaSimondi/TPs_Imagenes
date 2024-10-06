@@ -15,7 +15,7 @@ def ejercicio1():
    
     # Mostrar histogramas del set 1
     print("Mostrando histogramas del Set 1 (PAIByB-3):")
-    mostrar_espacios(imagenes_set1, sufijos_set1)
+    #mostrar_espacios(imagenes_set1, sufijos_set1)
     mostrar_histogramas(imagenes_set1, sufijos_set1)
 
     print("Mostrando autocorrelogramas del Set 1 (PAIByB-3):")
