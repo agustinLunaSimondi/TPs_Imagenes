@@ -13,7 +13,7 @@ def calcular_momentos_hu(contorno, log_value = True):
         return momento_hu
     
 
-def filtrar_contorno_fourier(contornos, idx_contorno, n_descriptor = 50): # incompleta
+def filtrar_contorno_fourier(contornos, idx_contorno, n_descriptor = 50):
     contorno = contornos[idx_contorno]
     contorno_complejo = np.array([point[0][0] + 1j * point[0][1] for point in contorno])
     fourier = np.fft.fft(contorno_complejo)
