@@ -103,7 +103,8 @@ def mostrar_histogramas(imagenes, sufijos, output_dir='./output/histogramas'):
                     # Guardar cada canal individual en la carpeta RGB
                     canal_img_rgb = canal_img # Ya que lo asigne correctamente ya 
                     guardar_imagen(rgb_dir, f"{sufijos[i]}_Canal_{col}.png", canal_img_rgb)
-
+                    minimo = canal_img_rgb.min()
+                    maximo = canal_img_rgb.max()
                     # Mostrar cada canal
                     plt.subplot(3, 4, 1 + j)
                     plt.imshow(canal_img, cmap = mapas[j] )
@@ -141,12 +142,14 @@ def mostrar_histogramas(imagenes, sufijos, output_dir='./output/histogramas'):
 
                     # Guardar cada canal Y, U, V en la carpeta YUV
                     guardar_imagen(yuv_dir, f"{sufijos[i]}_Canal_{componentes_yuv[j]}.png", canal_img[:, :, j], color=False)
-
+                    minimo = canal_img.min()
+                    maximo = canal_img.max()
                     # Mostrar cada canal
                     plt.subplot(3, 4, 5 + j)
                     plt.imshow(canal_img[:, :, j], cmap = mapas [j])
                     plt.title(f"Canal {componentes_yuv[j]} - {sufijos[i]}")
                     plt.axis('off')
+                    
                     plt.colorbar()
 
                 # Guardar el histograma YUV
@@ -175,12 +178,14 @@ def mostrar_histogramas(imagenes, sufijos, output_dir='./output/histogramas'):
 
                     # Guardar cada canal H, S, V en la carpeta HSV
                     guardar_imagen(hsv_dir, f"{sufijos[i]}_Canal_{componentes_hsv[j]}.png", canal_img[:, :, j], color=False)
-
+                    minimo = canal_img.min()
+                    maximo = canal_img.max()
                     # Mostrar cada canal
                     plt.subplot(3, 4, 9 + j)
                     plt.imshow(canal_img[:, :, j], cmap = mapas[j])
                     plt.title(f"Canal {componentes_hsv[j]} - {sufijos[i]}")
                     plt.axis('off')
+                   
                     plt.colorbar()
 
                 # Guardar el histograma HSV
