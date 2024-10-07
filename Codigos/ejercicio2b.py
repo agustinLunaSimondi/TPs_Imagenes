@@ -123,10 +123,8 @@ def ejercicio2b():
     plot_2(imagen_contorno_1, mag_esp_1, "Contorno seleccionado de img-1", "Espectro de magnitud de fourier")
     plot_2(imagen_contorno_2, mag_esp_2, "Contorno seleccionado de img-2", "Espectro de magnitud de fourier")
     plot_2(imagen_contorno_5, mag_esp_5, "Contorno seleccionado de img-5", "Espectro de magnitud de fourier")
-    """
 
     # wavelets
-    """
     wavelets_1 = transformar_wavelet(imagen_contorno_1)
     wavelets_2 = transformar_wavelet(imagen_contorno_2)
     wavelets_5 = transformar_wavelet(imagen_contorno_5)
