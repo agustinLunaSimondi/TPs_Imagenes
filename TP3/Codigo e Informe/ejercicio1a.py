@@ -1,6 +1,6 @@
-from funciones.cargar import cargar_imagenes, mostrar_imagenes
-
-def ejercicio1():
+from funciones.cargar import cargar_imagenes, mostrar_imagenes, analizar_imagenes
+from funciones.metricas import *
+def ejercicio1a():
     # Set 1: Imágenes de la carpeta "PAIByB-3"
     sufijos_set1 = ['img-1', 'img-2', 'img-3', 'img-4','img-11','img-12']
     ruta_base_set1 = './TP3/Imagenes/PAIByB-5/'  # Ruta base para el set 1
@@ -11,9 +11,11 @@ def ejercicio1():
     imagenes_set1 = cargar_imagenes(sufijos_set1, ruta_base_set1)
     mostrar_imagenes(imagenes_set1,sufijos_set1)
    
-
+    analizar_imagenes (imagenes_set1,sufijos_set1)
+    calcular_estadisticas(imagenes_set1,sufijos_set1)
+    histograma(imagenes_set1,sufijos_set1)
 
   
 
 if __name__ == "__main__":
-    ejercicio1()
+    ejercicio1a()
