@@ -8,7 +8,7 @@ def cargar_imagenes(sufijos, ruta_base):
     for i, sufijo in enumerate(sufijos):
         imagen_path = ruta_base+sufijo+'.tif'
 
-        imagenes_descargadas[i] = cv2.imread(imagen_path, cv2.IMREAD_COLOR)
+        imagenes_descargadas[i] = cv2.imread(imagen_path, cv2.IMREAD_GRAYSCALE)
 
         if imagenes_descargadas[i] is None:
           #Si por algun motivo no  carga que lo informe
@@ -59,7 +59,7 @@ def analizar_imagenes(imagenes, sufijos):
         if imagen is None:
             print(f"Error: No se cargó la imagen {sufijos[i]}.tif")
         else:
-            altura, ancho, canales = imagen.shape
+            altura, ancho = imagen.shape
             maximo = np.max(imagen)
             minimo = np.min(imagen)
             print(f"La altura y ancho de la imagen {sufijos[i]}.tif son: {altura} y {ancho}. Máximo: {maximo}, Mínimo: {minimo}")

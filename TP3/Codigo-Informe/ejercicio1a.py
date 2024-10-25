@@ -19,16 +19,16 @@ def ejercicio1a():
     print("Al ver imagenes de diferentes dimensiones hacemos un resize tomando la imagen de referencia como la primera")
     indices = [4,5]
     imagenes_set1 = redimensionar(imagenes_set1,indices)
-    mostrar_imagenes(imagenes_set1,sufijos_set1)
+    #mostrar_imagenes(imagenes_set1,sufijos_set1)
     print("Se hace analisis de esta parte primero para entender las diferencias")
     print("Hacemos deteccion de las caracteristicas con SIFT")
-    obtener_caracteristicas(imagenes_set1,sufijos_set1,metodo ='SIFT')
+    #obtener_caracteristicas(imagenes_set1,sufijos_set1,metodo ='SIFT')
     print("Ahora se lleva acabo el caso para ORB")
-    obtener_caracteristicas(imagenes_set1,sufijos_set1,metodo ='ORB')
+    #obtener_caracteristicas(imagenes_set1,sufijos_set1,metodo ='ORB')
 
     print("Una vez hecho esto ahora vemos como se unen los puntos y su registracion utilizando ningun filtrado solamente distancai eucladiana")
 
-    imagenes_registradas(imagenes_set1,sufijos_set1,imagenes_set1[0],None,)
+    imagenes_registradas(imagenes_set1,sufijos_set1,imagenes_set1[0],emparejamiento = "flann")
 
 if __name__ == "__main__":
     ejercicio1a()
