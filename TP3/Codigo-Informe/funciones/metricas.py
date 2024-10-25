@@ -14,3 +14,5 @@ def histograma(imagenes,sufijos):
     plt.hist(np.ravel(imagen), bins=256, range=(0, 255))
     plt.title(sufijos[i])
   plt.show()
+
+  
