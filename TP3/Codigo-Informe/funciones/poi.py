@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+from metricas import comparacion
 
 
 def detectar_puntos_interes(imagenes, metodo='SIFT'):
@@ -163,4 +164,6 @@ def imagenes_registradas(imagenes, sufijos, referencia,metodo ="sift" ,emparejam
             plt.tight_layout(pad=3.0)  # Ajusta el espacio entre subgráficas
             plt.show()
             registradas.append(imagen_registrada)
+
+            comparacion([referencia,imagen_registrada],sufijos[i])
     return registradas
