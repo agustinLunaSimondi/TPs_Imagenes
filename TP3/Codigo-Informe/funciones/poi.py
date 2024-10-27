@@ -92,6 +92,7 @@ def imagenes_registradas(imagenes, sufijos, referencia,metodo ="sift" ,emparejam
                 #NORM_L2 seria eucladiano y crossCheck permite verificar que haya un match entre 
                 #ambas imagenes segun sus puntos de interes
                 elif( metodo == "orb"):
+                    # Usamos por defecto Hamming para le caso de ORB
                     bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
         
                 matches = bf.match(descrip_m,descrip_f)
