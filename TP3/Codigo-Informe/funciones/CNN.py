@@ -5,15 +5,16 @@ from scipy import fftpack
 from skimage.metrics import structural_similarity as ssim
 
 
-def cnn(lista_imagenes):
+def cnn(lista_imagenes, umbral_ncc=0.6):
     # Cargar la imagen de referencia (la primera en la lista)
     img_ref = lista_imagenes[0]
     if img_ref is None:
         raise ValueError("La imagen de referencia no se pudo cargar.")
     
-    # Dimensiones de la imagen de referencia
+    # Asegurarse de que todas las imágenes sean del mismo tamaño que la referencia
     altura, ancho = img_ref.shape
     
+
     # Lista para almacenar las imágenes registradas
     imagenes_registradas = [img_ref.copy()]
 
@@ -31,6 +32,11 @@ def cnn(lista_imagenes):
         # Encontrar el valor máximo y su ubicación
         _, max_v, _, max_loc = cv2.minMaxLoc(ncc)
         
+        # Verificar si el valor de NCC es suficientemente alto para considerar que hay coincidencia
+        if max_v < umbral_ncc:
+            print(f"Desplazamiento para la imagen {i} no confiable con NCC = {max_v}")
+            continue
+
         # Coordenadas del punto óptimo de coincidencia (desplazamiento óptimo)
         topleft = max_loc
         print(f"Desplazamiento óptimo para la imagen {i}: {topleft} con valor de NCC = {max_v}")
@@ -66,7 +72,8 @@ def cnn(lista_imagenes):
         plt.axis('off')
         
         plt.show()
-
+    
+    return imagenes_registradas
    
 
 

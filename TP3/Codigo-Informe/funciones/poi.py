@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-from metricas import comparacion
+from funciones.metricas import comparacion
 
 
 def detectar_puntos_interes(imagenes, metodo='SIFT'):
@@ -153,7 +153,7 @@ def imagenes_registradas(imagenes, sufijos, referencia,metodo ="sift" ,emparejam
 
             ax3 = fig.add_subplot(2, 3, 5)  # 2 filas, 3 columnas, quinto subplot
             ax3.imshow(imagen_registrada, cmap='gray', vmin=0, vmax=255)
-            ax3.set_title(f'Registro con {sufijos[1]}')  # Cambia según necesites
+            ax3.set_title(f'Registro con {sufijos[i]}')  # Cambia según necesites
             ax3.axis('off')
 
             ax4 = fig.add_subplot(2, 3, 6)  # 2 filas, 3 columnas, sexto subplot
@@ -165,5 +165,5 @@ def imagenes_registradas(imagenes, sufijos, referencia,metodo ="sift" ,emparejam
             plt.show()
             registradas.append(imagen_registrada)
 
-            comparacion([referencia,imagen_registrada],sufijos[i])
+            comparacion([referencia,imagen_registrada],["blank",sufijos[i]])
     return registradas

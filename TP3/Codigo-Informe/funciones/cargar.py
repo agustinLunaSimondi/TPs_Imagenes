@@ -39,7 +39,7 @@ def mostrar_imagenes(imagenes, sufijos, barra = False):
               linea= False
               plt.subplot(1, len(imagenes)+1, i + 1)
               plt.title(f'{sufijos[i]}')
-              plt.imshow(imagen, cmap='gray',vmin=0,vmax=255)
+              plt.imshow(imagen, cmap='gray')
               plt.axis('on')
               plt.tight_layout()
 
