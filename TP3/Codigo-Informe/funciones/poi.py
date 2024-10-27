@@ -53,7 +53,7 @@ def imagenes_registradas(imagenes, sufijos, referencia,metodo ="sift" ,emparejam
     registradas=[]
     for i, imagen in enumerate(imagenes):
         if(i!=0):
-
+            print(i)
             kp_m, descrip_m = met.detectAndCompute(imagen, mask=None)
 
             if (emparejamiento == "flann"):

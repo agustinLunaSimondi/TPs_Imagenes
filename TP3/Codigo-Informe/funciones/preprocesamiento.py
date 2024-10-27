@@ -107,36 +107,54 @@ def filtros(imagenes, sufijos):
 
 
 def wavelet2(img_with_noise_np):
+    # Asegurarse de que la imagen esté en formato de punto flotante y normalizada entre [0, 1]
     img_with_noise_np = img_as_float(img_with_noise_np)
-
+    
     # Calcular la estimación de sigma del ruido
-    sigma_est = estimate_sigma(img_with_noise_np, multichannel=False)
+    sigma_est = estimate_sigma(img_with_noise_np)
+    
+    # Definir el eje de canal basado en la dimensionalidad de la imagen
+    channel_axis = -1 if img_with_noise_np.ndim == 3 else None
+    
+    # Aplicar el filtro de ondículas con channel_axis en lugar de multichannel
+    wavelet_filtered = denoise_wavelet(
+        img_with_noise_np, 
+        sigma=sigma_est, 
+        mode='soft', 
+        wavelet_levels=3, 
+        channel_axis=channel_axis,  # Usamos channel_axis en vez de multichannel
+        rescale_sigma=True
+    )
+    
 
-    # Aplicar el filtro de ondículas
-    wavelet_filtered = denoise_wavelet(img_with_noise_np, sigma=sigma_est, mode='soft', wavelet_levels=3, multichannel=False, rescale_sigma=True)
-
-    # Visualizar el resultado de la imagen filtrada
-    plt.figure(figsize=(12, 6))
+    plt.figure(figsize=(8, 4))
+        
     plt.subplot(1, 2, 1)
-    plt.imshow(img_with_noise_np, cmap="gray")
-    plt.title("Imagen Original con Ruido")
-    plt.axis("off")
-
+    plt.imshow(img_with_noise_np, cmap='gray')
+    plt.title(' - Ruidosa')
+    plt.axis('off')
+    
     plt.subplot(1, 2, 2)
-    plt.imshow(wavelet_filtered, cmap="gray")
-    plt.title("Imagen Filtrada por Ondículas")
-    plt.axis("off")
-
+    plt.imshow(wavelet_filtered, cmap='gray')
+    plt.title('- Reconstruida')
+    plt.axis('off')
+   
+    plt.tight_layout()
     plt.show()
+
+
+    return wavelet_filtered
+
+
 
 def soft_thresholding(coeffs, threshold):
     # Aplicar umbral suave a los coeficientes
     return pywt.threshold(coeffs, threshold, mode='soft')
 
-def wavelet(imagenes, varianzas, sufijos=None):
+def wavelet(imagenes, varianzas,indices_modificar =None ,sufijos=None):
     if sufijos is None:
         sufijos = [f"Imagen {i+1}" for i in range(len(imagenes))]
-
+    image_wavelet = []
     for idx, (imagen, varianza) in enumerate(zip(imagenes, varianzas)):
         # Convertir la imagen a escala de grises si es a color
         if len(imagen.shape) == 3:
@@ -181,6 +199,20 @@ def wavelet(imagenes, varianzas, sufijos=None):
         plt.suptitle(f'Reducción de Ruido - {sufijos[idx]}')
         plt.tight_layout()
         plt.show()
+        image_wavelet.append(imagen_denoised)
+
+    imagenes_retornadas=[]
+    
+    if(indices_modificar == None):
+        print("No hay imagenes a devolve")
+    else:
+        for i in indices_modificar:
+            image_wavelet[i] = cv2.normalize(image_wavelet[i], None, 0, 255, cv2.NORM_MINMAX)
+            image_wavelet[i] = image_wavelet[i].astype('uint8')
+            imagenes_retornadas.append(image_wavelet[i])
+        
+        return imagenes_retornadas
+
 
 
 
@@ -269,8 +301,8 @@ def filtrado_fourier2(img):
 
     # Configuración para el filtro notch
     num_notches = 125   # Número de puntos a bloquear en la línea diagonal
-    line_slope = 0.35   # Pendiente aproximada de la línea diagonal en el espectro
-    line_offset = 1   # Tamaño del área notch alrededor de cada punto
+    line_slope = 0.3   # Pendiente aproximada de la línea diagonal en el espectro
+    line_offset = 3   # Tamaño del área notch alrededor de cada punto
     protect_radius = 20  # Radio de protección central
 
     # Bloquear una banda diagonal en el espectro fuera del rango central
@@ -358,6 +390,9 @@ def aplicar_clahe(imagen, clipLimit=2.0, tileGridSize=(8, 8)):
     ax[0].imshow(imagen, cmap='gray')
     ax[1].imshow(imagen_clahe, cmap='gray')
     plt.show()
+
+    imagen_clahe = cv2.normalize(imagen_clahe, None, 0, 255, cv2.NORM_MINMAX)
+    imagen_clahe = imagen_clahe.astype('uint8')
     return imagen_clahe
     
 
