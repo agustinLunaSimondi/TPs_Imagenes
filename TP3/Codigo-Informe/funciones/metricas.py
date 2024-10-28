@@ -16,7 +16,7 @@ def histograma(imagenes,sufijos):
     plt.title(sufijos[i])
   plt.show()
 
-def comparacion (imagenes,sufijos):
+def comparacion(imagenes,sufijos):
     img_ref = imagenes[0]
     for i in range(1, len(imagenes)):
         img_registrada = imagenes[i]
