@@ -81,6 +81,7 @@ def cnn2(lista_imagenes):
     # Cargar la imagen de referencia (fija) desde la primera posición de la lista
     img_ref = lista_imagenes[0]
     
+    
     # Normalizar y aplicar Gaussian Blur a la imagen de referencia
     img_ref = cv2.normalize(img_ref.astype(np.float32), None, 0.0, 1.0, cv2.NORM_MINMAX)
     img_ref = cv2.GaussianBlur(img_ref, (5, 5), 0)
@@ -158,6 +159,7 @@ def cnn2(lista_imagenes):
         img_registrada = cv2.warpAffine(img_mov, M_rot_final, (ancho, alto), flags=cv2.INTER_LINEAR)
 
         # Calcular métricas de calidad (MSE y SSIM)
+        
         mse = np.mean((img_ref - img_registrada) ** 2)
         ssim_index, _ = ssim(img_ref, img_registrada, full=True, data_range=1.0)
 
