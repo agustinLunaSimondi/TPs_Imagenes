@@ -16,4 +16,11 @@ def histograma(imagenes,sufijos):
     plt.title(sufijos[i])
   plt.show()
 
-  
+def comparacion (imagenes,sufijos):
+    img_ref = imagenes[0]
+    for i in range(1, len(imagenes)):
+        img_registrada = imagenes[i]
+        mse = np.mean((img_ref - img_registrada) ** 2) 
+        print(f"{sufijos[i]}-Error Cuadrático Medio (MSE): {mse:.4f}")
+        ssim_index, _ = ssim(img_ref, img_registrada, full=True,  data_range=1.0)
+        print(f"{sufijos[i]}-Índice de Similitud Estructural (SSIM): {ssim_index:.4f}")  
