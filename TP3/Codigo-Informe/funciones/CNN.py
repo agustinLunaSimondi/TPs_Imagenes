@@ -8,6 +8,7 @@ from scipy import fftpack
 from funciones.cargar import cargar_imagenes, mostrar_imagenes
 from funciones.generales import plot_1, plot_2
 from funciones.MI import registrar_MI, fondo_blanco_a_negro
+from funciones.metricas import calcular_mse_ssim
 
 
 def cnn(lista_imagenes,sufijos):
@@ -201,13 +202,6 @@ def registrar_cnn(imagen1, imagen2, graficar = True, calcular_metricas = True):
 
     # 10. Calcular y mostrar métricas de calidad
     if calcular_metricas:
-        # Error Cuadrático Medio (MSE)
-        mse = np.mean((img_ref - img_registrada) ** 2)
-        print(f"Error Cuadrático Medio (MSE): {mse:.4f}")
-
-        # Índice de Similitud Estructural (SSIM)
-        from skimage.metrics import structural_similarity as ssim
-        ssim_index, _ = ssim(img_ref, img_registrada, full=True,  data_range=1.0)
-        print(f"Índice de Similitud Estructural (SSIM): {ssim_index:.4f}")
+        calcular_mse_ssim(img_ref, img_registrada)
 
     return

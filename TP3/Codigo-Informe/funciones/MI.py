@@ -27,7 +27,9 @@ def invertir(imagen):
     return imagen_invertida
 
 
-def registrar_MI(img_ref, img_mov):
+def registrar_MI(img_ref_original, img_mov_original):
+    img_ref = img_ref_original.copy()
+    img_ref = img_mov_original.copy()
     img_ref = cv2.cvtColor(img_ref, cv2.COLOR_BGR2GRAY) if len(img_ref.shape) == 3 else img_ref
     img_mov = cv2.cvtColor(img_mov, cv2.COLOR_BGR2GRAY) if len(img_mov.shape) == 3 else img_mov
 

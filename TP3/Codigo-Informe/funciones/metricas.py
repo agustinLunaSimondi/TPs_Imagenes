@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from skimage.metrics import structural_similarity as ssim
 
 def calcular_estadisticas(imagenes, sufijos):
   for imagen in range(len(imagenes)):
@@ -15,4 +16,9 @@ def histograma(imagenes,sufijos):
     plt.title(sufijos[i])
   plt.show()
 
-  
+def calcular_mse_ssim(img_ref, img_registrada):
+  mse = np.mean((img_ref - img_registrada) ** 2)
+  print(f"Error Cuadrático Medio (MSE): {mse:.4f}")
+  ssim_index, _ = ssim(img_ref, img_registrada, full=True,  data_range=1.0)
+  print(f"Índice de Similitud Estructural (SSIM): {ssim_index:.4f}")
+  return
