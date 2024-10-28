@@ -1,8 +1,16 @@
-import cv2
-import matplotlib.pyplot as plt
 import numpy as np
 from scipy import fftpack
 from skimage.metrics import structural_similarity as ssim
+import matplotlib.pyplot as plt
+import cv2
+from skimage import io, transform, img_as_float
+from skimage.metrics import structural_similarity as ssim, mean_squared_error as mse
+from scipy.optimize import differential_evolution
+from scipy import fftpack
+from funciones.cargar import cargar_imagenes, mostrar_imagenes
+from funciones.generales import plot_1, plot_2
+from funciones.MI import registrar_MI, fondo_blanco_a_negro
+from funciones.metricas import calcular_mse_ssim
 
 
 def cnn(lista_imagenes, umbral_ncc=0.6):

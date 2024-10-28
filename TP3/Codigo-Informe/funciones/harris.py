@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
+from funciones.metricas import calcular_mse_ssim
 
 def harris_kp(img, block_size = 8, ksize = 5, k = 0.04, threshold = False):
     imagen = img.copy()
@@ -26,7 +27,9 @@ def harris_kp(img, block_size = 8, ksize = 5, k = 0.04, threshold = False):
     return keypoints, imagen_esquinas
 
 
-def registrar(imagen_f, imagen_m, kp_f, kp_m, descrip_f, descrip_m, graficar = True):
+def registrar(img_f, img_m, kp_f, kp_m, descrip_f, descrip_m, graficar = True, calcular_metricas = True):
+    imagen_f = img_f.copy()
+    imagen_m = img_m.copy()
 
     bf = cv2.BFMatcher(cv2.NORM_L2, crossCheck=True)
     matches = bf.match(descrip_m, descrip_f)
@@ -75,5 +78,8 @@ def registrar(imagen_f, imagen_m, kp_f, kp_m, descrip_f, descrip_m, graficar = T
         plt.axis('off')
 
         plt.show()
+
+    if calcular_metricas:
+        calcular_mse_ssim(imagen_f, imagen_registrada)
 
     return
